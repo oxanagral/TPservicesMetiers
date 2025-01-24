@@ -16,7 +16,7 @@ public interface ClientRepository extends JpaRepository<Client, String> {
      * Calcule le nombre d'articles commandés par un client
      * @param clientCode la clé du client
      */
-    @Query("SELECT 0")
+    @Query("SELECT COALESCE(SUM(l.quantite), 0) FROM Client c JOIN c.commandes cmd JOIN cmd.lignes l WHERE c.code = ?1")
     int nombreArticlesCommandesPar(String clientCode);
 
     /**
